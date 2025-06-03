@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Открой мир вместе с нами</h1>
+    <p>Путешествуйте с комфортом и по доступным ценам</p>
+    <a href="{% url 'tours_list' %}" class="btn btn-primary btn-lg mt-3">Смотреть туры</a>
+</div>
+
+<div class="row">
+    <div class="col-md-12 mb-4 mt-4">
+        <h2 class="text-center mb-4">Популярные направления</h2>
+    </div>
+</div>
+
+<div class="row">
+    {% for destination in destinations %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 tour-card">
+            <img src="{{ destination.image.url }}" class="card-img-top tour-img" alt="{{ destination.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ destination.name }}</h5>
+                <p class="card-text">{{ destination.description|truncatewords:15 }}</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">Направления не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12 mb-4">
+        <h2 class="text-center mb-4">Новые туры</h2>
+    </div>
+</div>
+
+<div class="row">
+    {% for tour in tours %}
+    <div class="col-md-3 mb-4">
+        <div class="card h-100 tour-card">
+            <img src="{{ tour.image.url }}" class="card-img-top tour-img" alt="{{ tour.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ tour.name }}</h5>
+                <p class="card-text">{{ tour.description|truncatewords:10 }}</p>
+                <p class="card-text text-primary fw-bold">{{ tour.price }} ₽</p>
+                <a href="{% url 'tour_detail' tour.id %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">Туры не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

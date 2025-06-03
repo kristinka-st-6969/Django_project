@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Все туры | {{ block.super }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Все туры</h1>
+
+<div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+        <form method="GET" action="{% url 'tours_list' %}">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Поиск туров..." value="{{ query }}">
+                <button class="btn btn-primary" type="submit">Поиск</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% for tour in tours %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 tour-card">
+            <img src="{{ tour.image.url }}" class="card-img-top tour-img" alt="{{ tour.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ tour.name }}</h5>
+                <p class="card-text"><strong>Направление:</strong> {{ tour.destination.name }}</p>
+                <p class="card-text"><strong>Продолжительность:</strong> {{ tour.duration }} дней</p>
+                <p class="card-text">{{ tour.description|truncatewords:15 }}</p>
+                <p class="card-text text-primary fw-bold">{{ tour.price }} ₽</p>
+            </div>
+            <div class="card-footer bg-white border-top-0">
+                <a href="{% url 'tour_detail' tour.id %}" class="btn btn-primary w-100">Подробнее</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center">Туры не найдены.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

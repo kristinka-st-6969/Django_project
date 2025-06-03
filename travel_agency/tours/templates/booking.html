@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Бронирование тура | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">Бронирование тура "{{ tour.name }}"</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <img src="{{ tour.image.url }}" class="img-fluid rounded" alt="{{ tour.name }}">
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Детали тура:</h5>
+                        <p><strong>Направление:</strong> {{ tour.destination.name }}</p>
+                        <p><strong>Продолжительность:</strong> {{ tour.duration }} дней</p>
+                        <p><strong>Цена за человека:</strong> {{ tour.price }} ₽</p>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                                        
+                        <div class="mb-3">
+                            {{ form.date.label_tag }}
+                            {{ form.date }}
+                            {{ form.date.errors }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.persons.label_tag }}
+                            {{ form.persons }}
+                            {{ form.persons.errors }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Расчет стоимости:</h5>
+                                    <p class="mb-1">Цена за человека: {{ tour.price }} ₽</p>
+                                    <p class="mb-1">× <span id="personCount">1</span> человек</p>
+                                    <hr>
+                                    <p class="fw-bold">Итого: <span id="totalPrice">{{ tour.price }}</span> ₽</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success">Подтвердить бронирование</button>
+                                <a href="{% url 'tour_detail' tour.id %}" class="btn btn-outline-secondary">Вернуться к туру</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
